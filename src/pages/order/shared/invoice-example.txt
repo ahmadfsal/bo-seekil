@@ -1,0 +1,35 @@
+Nama: {values['name']}
+<br />
+Jenis Order: {values['order_type']}
+<br />
+{values['order_type'] === 'Drop Off' && (
+    <>
+        Lokasi Drop Off:{' '}
+        {values['drop_off_location']}
+        <br />
+    </>
+)}
+____________________ <br />
+Items
+<br />
+<br />
+{values['items'].map((item) => (
+    <>
+        Nama Item: {item['name']}
+        <br />
+        Service: {item['service']}
+        <br />
+        {item['topping'].length > 0 && (
+            <>
+                Topping:{' '}
+                {item['topping'].join(', ')}
+                <br />
+            </>
+        )}
+        Subtotal: {item['subtotal']}
+        <br />
+        Catatan: {item['note']}
+        <br />
+        <br />
+    </>
+))}

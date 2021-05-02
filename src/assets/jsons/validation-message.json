@@ -1,0 +1,4 @@
+{
+    "MAX_LENGTH": "must be at most ${max} characters",
+    "REQUIRED_FIELD": "is required field"
+}

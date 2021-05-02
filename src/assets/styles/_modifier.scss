@@ -1,0 +1,22 @@
+.is-fullwidth {
+    width: 100%;
+}
+
+.is-mandatory {
+    &::after {
+        content: ' *';
+        color: #e32;
+    }
+}
+
+.is-clickable {
+    cursor: pointer;
+    color: orange;
+}
+
+.divider {
+    margin: 25px 0;
+    width: 100%;
+    background-color: $gray;
+    height: 1px;
+}

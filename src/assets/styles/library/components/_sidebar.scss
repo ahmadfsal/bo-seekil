@@ -1,0 +1,23 @@
+.sidebar {
+    float: left;
+    position: fixed;
+    width: 200px;
+    margin-top: 3.25rem;
+    background-color: white;
+    height: 100vh;
+    padding: 1.5rem 1.5rem 0 1.5rem;
+
+    .sidebar-link {
+        &.has-child {
+            cursor: not-allowed;
+
+            &:hover {
+                background-color: transparent;
+            }
+        }
+
+        &:hover {
+            transition: ease-in-out 0.1s;
+        }
+    }
+}

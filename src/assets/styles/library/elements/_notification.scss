@@ -1,0 +1,37 @@
+.notification {
+    &-wrapper {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+        z-index: 999;
+        transform: translate(-50%, -50%);
+        background-color: rgba(10, 10, 10, 0.86);
+    }
+
+    &.is-top {
+        &-left {
+            top: 20px;
+            left: 20px;
+        }
+        &-right {
+            top: 20px;
+            right: 20px;
+        }
+    }
+
+    &.is-bottom {
+        &-left {
+            bottom: 20px;
+            left: 20px;
+        }
+        &-right {
+            bottom: 20px;
+            right: 20px;
+        }
+    }
+}

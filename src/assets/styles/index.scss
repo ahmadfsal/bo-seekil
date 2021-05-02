@@ -1,0 +1,28 @@
+// Overwrite Bulma
+@import 'overwrite_bulma';
+@import 'custom_variable';
+@import 'modifier';
+// Bulma Core
+@import 'bulma';
+// Library
+@import './library/components/dropdown';
+@import './library/components/navbar';
+@import './library/components/sidebar';
+@import './library/components/modal_loading';
+@import './library/elements/button';
+@import './library/elements/notification';
+@import './library/elements/table';
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+        "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+        "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+        monospace;
+}
