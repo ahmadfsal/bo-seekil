@@ -9,77 +9,19 @@ import { Link } from 'react-router-dom';
 
 import Table from './views/table';
 import Filter from './views/filter';
-import ModalItems from './views/modal-items';
+import ModalTracking from './views/modal-tracking';
 
 const Order = () => {
     const [orderList, setOrderList] = useState([]);
-    const [orderStatusData, setOrderStatusData] = useState([]);
-    const [orderTypeData, setOrderTypeData] = useState([]);
     const [isShowModalLoading, setShowModalLoading] = useState(false);
-    const [modalAttr, setModalItemsAttr] = useState({
+    const [modalAttr, setModalTrackingAttr] = useState({
         isShow: false,
-        list: []
+        order_id: null
     });
 
     useEffect(() => {
         fetchOrderList();
-        fetchOrderStatus();
-        fetchOrderType();
     }, []);
-
-    const fetchOrderType = () => {
-        try {
-            setShowModalLoading(true);
-            seekilApi
-                .get('master/type')
-                .then((res) => {
-                    if (res.status === 200) {
-                        const arrOrderType = res?.data?.list?.map((item) => {
-                            return {
-                                text: item?.name,
-                                value: item?.id
-                            };
-                        });
-                        setOrderTypeData(arrOrderType);
-                    } else {
-                        setOrderTypeData([]);
-                    }
-                })
-                .catch((err) => {
-                    throw err;
-                });
-        } catch (error) {
-        } finally {
-            setShowModalLoading(false);
-        }
-    };
-
-    const fetchOrderStatus = () => {
-        try {
-            setShowModalLoading(true);
-            seekilApi
-                .get('master/status')
-                .then((res) => {
-                    if (res.status === 200) {
-                        const arrOrderStatus = res?.data?.list?.map((item) => {
-                            return {
-                                text: item?.name,
-                                value: item?.id
-                            };
-                        });
-                        setOrderStatusData(arrOrderStatus);
-                    } else {
-                        setOrderStatusData([]);
-                    }
-                })
-                .catch((err) => {
-                    throw err;
-                });
-        } catch (error) {
-        } finally {
-            setShowModalLoading(false);
-        }
-    };
 
     const fetchOrderList = () => {
         try {
@@ -102,25 +44,11 @@ const Order = () => {
         }
     };
 
-    const handleFetchItems = (orderId) => {
-        seekilApi
-            .get(`order/item/${orderId}`)
-            .then((res) => {
-                if (res?.data) {
-                    setModalItemsAttr((prevValue) => ({
-                        ...prevValue,
-                        isShow: true,
-                        list: res?.data?.list
-                    }));
-                }
-            })
-            .catch((err) => console.log(err));
-    };
-
-    const handleModalItems = () => {
-        setModalItemsAttr((prevValue) => ({
+    const handleModalTracking = (orderId) => {
+        setModalTrackingAttr((prevValue) => ({
             ...prevValue,
-            isShow: !prevValue.isShow
+            isShow: !prevValue.isShow,
+            order_id: orderId
         }));
     };
 
@@ -143,10 +71,12 @@ const Order = () => {
                 orderStatusData={orderStatusData}
                 orderTypeData={orderTypeData}
             /> */}
-            <Table data={orderList} handleFetchItems={handleFetchItems} />
+            <Table data={orderList} handleModalTracking={handleModalTracking} />
+
             <ModalLoading isShow={isShowModalLoading} />
-            <ModalItems
-                handleModalItems={handleModalItems}
+
+            <ModalTracking
+                handleModalTracking={handleModalTracking}
                 modalAttr={modalAttr}
             />
         </>

@@ -12,6 +12,7 @@ module.exports = {
             '@layout': path.resolve(__dirname, 'src/library/layout'),
             '@service': path.resolve(__dirname, 'src/library/services'),
             '@utils': path.resolve(__dirname, 'src/library/utils'),
+            '@node_modules': path.resolve(__dirname, 'node_modules'),
             '#': path.resolve(__dirname, 'src')
         }
     }

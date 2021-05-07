@@ -4,6 +4,7 @@
 @import 'modifier';
 // Bulma Core
 @import 'bulma';
+@import '@node_modules/bulma-o-steps/bulma-steps.sass';
 // Library
 @import './library/components/dropdown';
 @import './library/components/navbar';

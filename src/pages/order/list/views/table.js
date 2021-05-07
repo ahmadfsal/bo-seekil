@@ -1,10 +1,12 @@
 import { Table } from '@elements';
 import { currencyFormat } from '@utils';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 
 const TableOrderList = (props) => {
-    const { data, handleFetchItems } = props;
+    const { data, handleModalTracking } = props;
 
     return (
         <>
@@ -23,6 +25,7 @@ const TableOrderList = (props) => {
                         <th>Order Date</th>
                         <th>Updated Date</th>
                         <th>Status</th>
+                        <th>Tracking</th>
                         <th>Total</th>
                     </tr>
                 </thead>
@@ -34,14 +37,26 @@ const TableOrderList = (props) => {
                                     {item?.order_id ?? '-'}
                                 </Link>
                             </td>
-                            <td className='autofit'>{item?.customer_name ?? '-'}</td>
+                            <td className='autofit'>
+                                {item?.customer_name ?? '-'}
+                            </td>
                             <td className='autofit'>{item?.whatsapp ?? '-'}</td>
-                            <td className='autofit'>{item?.master_type?.name ?? '-'}</td>
-                            <td className='autofit'>{item?.master_store?.name ?? '-'}</td>
-                            <td className='autofit'>{item?.pickup_address ?? '-'}</td>
-                            <td className='autofit'>{item?.master_partnership?.name ?? '-'}</td>
+                            <td className='autofit'>
+                                {item?.master_type?.name ?? '-'}
+                            </td>
+                            <td className='autofit'>
+                                {item?.master_store?.name ?? '-'}
+                            </td>
+                            <td className='autofit'>
+                                {item?.pickup_address ?? '-'}
+                            </td>
+                            <td className='autofit'>
+                                {item?.master_partnership?.name ?? '-'}
+                            </td>
                             <td className='autofit'>{`${item?.qty} item`}</td>
-                            <td className='autofit'>{item?.promo?.name ?? '-'}</td>
+                            <td className='autofit'>
+                                {item?.promo?.name ?? '-'}
+                            </td>
                             <td className='autofit'>
                                 {moment(item?.order_date).format(
                                     'DD MMMM YYYY H:mm:ss'
@@ -54,6 +69,14 @@ const TableOrderList = (props) => {
                             </td>
                             <td className='autofit'>
                                 {item?.master_status?.name ?? '-'}
+                            </td>
+                            <td className='is-clickable has-text-centered'>
+                                <FontAwesomeIcon
+                                    icon={faEye}
+                                    onClick={() =>
+                                        handleModalTracking(item?.order_id)
+                                    }
+                                />
                             </td>
                             <td className='autofit'>
                                 Rp {currencyFormat(item?.total) ?? '-'}
