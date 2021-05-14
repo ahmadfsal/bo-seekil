@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { seekilApi } from '@service/api.services';
 import { Level, LevelLeft } from '@layout';
-import { Title, Notification } from '@elements';
-import { Modal } from '@components';
+import { Title } from '@elements';
 import { useHistory, useParams } from 'react-router-dom';
 import Form from './views/form';
 
@@ -15,9 +14,6 @@ const CreateOrder = () => {
     const [objectValueOrderType, setObjectValueOrderType] = useState([]);
     const [objectValuePartnership, setObjectValueParnership] = useState([]);
     const [objectValueMasterStatus, setObjectValueMasterStatus] = useState([]);
-    const [isShowModalGenerateInvoice, setShowModalGenerateInvoice] = useState(
-        false
-    );
 
     useEffect(() => {
         fetchOrderDetail();
@@ -227,18 +223,6 @@ const CreateOrder = () => {
                 objectValueServices={objectValueServices}
                 orderDetailData={orderDetailData}
             />
-            {/* <Modal
-                isShow={isShowModalGenerateInvoice}
-                title='Generate Invoice'
-                onClickNegativeBtn={() => history.replace('/order')}
-                onClickPositiveBtn={() => {}}
-            >
-                Do you want to <strong>generate invoice</strong> for this order?
-            </Modal> */}
-
-            {/* <Notification isShow={isShowModalGenerateInvoice}>
-                --- Invoice Here ---
-            </Notification> */}
         </>
     );
 };

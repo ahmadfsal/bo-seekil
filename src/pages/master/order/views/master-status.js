@@ -14,7 +14,7 @@ const MasterStatus = (props) => {
     const { handleModalAdd, statusData } = props;
 
     return (
-        <Column>
+        <div className='mt-5'>
             <Level>
                 <LevelLeft>
                     <Title isSubtitle>Status</Title>
@@ -32,52 +32,50 @@ const MasterStatus = (props) => {
                 </LevelRight>
             </Level>
 
-            <Card>
-                <Table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Action</th>
+            <Table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {statusData.map((item) => (
+                        <tr key={item?.id}>
+                            <td className='autofit'>{item?.name}</td>
+                            <td className='is-max-width-100'>
+                                {item?.description}
+                            </td>
+                            <td>
+                                <FontAwesomeIcon
+                                    icon={faEdit}
+                                    className='is-clickable'
+                                    onClick={() => {
+                                        handleModalAdd(
+                                            MASTER_STATUS,
+                                            EDIT,
+                                            item?.id
+                                        );
+                                    }}
+                                />
+                                <FontAwesomeIcon
+                                    icon={faTrash}
+                                    className='is-clickable ml-5 has-text-danger'
+                                    onClick={() => {
+                                        handleModalAdd(
+                                            MASTER_STATUS,
+                                            DELETE,
+                                            item?.id
+                                        );
+                                    }}
+                                />
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {statusData.map((item) => (
-                            <tr key={item?.id}>
-                                <td className='autofit'>{item?.name}</td>
-                                <td className='is-max-width-100'>
-                                    {item?.description}
-                                </td>
-                                <td>
-                                    <FontAwesomeIcon
-                                        icon={faEdit}
-                                        className='is-clickable'
-                                        onClick={() => {
-                                            handleModalAdd(
-                                                MASTER_STATUS,
-                                                EDIT,
-                                                item?.id
-                                            );
-                                        }}
-                                    />
-                                    <FontAwesomeIcon
-                                        icon={faTrash}
-                                        className='is-clickable ml-5 has-text-danger'
-                                        onClick={() => {
-                                            handleModalAdd(
-                                                MASTER_STATUS,
-                                                DELETE,
-                                                item?.id
-                                            );
-                                        }}
-                                    />
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </Table>
-            </Card>
-        </Column>
+                    ))}
+                </tbody>
+            </Table>
+        </div>
     );
 };
 

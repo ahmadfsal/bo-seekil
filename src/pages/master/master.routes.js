@@ -47,7 +47,7 @@ const route = [
         title: 'Promo',
         component: Loadable({
             loader: () =>
-                import(/* webpackChunkName: "promo" */ './topping'),
+                import(/* webpackChunkName: "promo" */ './promo'),
             loading: () => null,
             modules: ['promo']
         })

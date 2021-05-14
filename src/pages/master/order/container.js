@@ -157,16 +157,16 @@ const Order = () => {
                 </LevelLeft>
             </Level>
 
-            <Columns>
-                <MasterType
-                    handleModalAdd={handleModalAdd}
-                    typeData={masterData.type}
-                />
-                <MasterStatus
-                    handleModalAdd={handleModalAdd}
-                    statusData={masterData.status}
-                />
-            </Columns>
+            {/* <Columns> */}
+            <MasterType
+                handleModalAdd={handleModalAdd}
+                typeData={masterData.type}
+            />
+            <MasterStatus
+                handleModalAdd={handleModalAdd}
+                statusData={masterData.status}
+            />
+            {/* </Columns> */}
 
             <ModalAdd
                 handleModalAdd={handleModalAdd}

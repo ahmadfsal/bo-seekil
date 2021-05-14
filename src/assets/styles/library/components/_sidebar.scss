@@ -1,11 +1,13 @@
 .sidebar {
     float: left;
     position: fixed;
-    width: 200px;
+    width: 180px;
     margin-top: 3.25rem;
     background-color: white;
     height: 100vh;
-    padding: 1.5rem 1.5rem 0 1.5rem;
+    padding: 1.5rem 1.5rem 7rem 1.5rem;
+    overflow-y: auto;
+    border-right: solid 1px lightgray;
 
     .sidebar-link {
         &.has-child {

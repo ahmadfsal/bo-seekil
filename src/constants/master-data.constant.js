@@ -5,5 +5,6 @@ export const ORDER_STATUS = {
     READY_TO_SHIPMENT: 4,
     READY_TO_PICKUP: 5,
     CANCEL: 6,
-    DONE: 7
+    DONE: 7,
+    ON_PROGRESS_SHIPPED: 8
 }

@@ -4,6 +4,20 @@ export const sidebarMenus = [
         path: '/',
         child: []
     },
+    // {
+    //     title: 'Store',
+    //     path: '/store',
+    //     child: [
+    //         {
+    //             title: 'Workshop',
+    //             path: '/store/workshop'
+    //         },
+    //         {
+    //             title: 'Drop Zone',
+    //             path: '/store/drop-zone'
+    //         },
+    //     ]
+    // },
     {
         title: 'Master',
         path: '/master',

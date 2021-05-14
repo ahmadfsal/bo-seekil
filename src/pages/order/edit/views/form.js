@@ -29,30 +29,32 @@ const CreateOrderForm = (props) => {
     const params = useParams();
 
     return (
-        <Card className='is-fullheight'>
-            <Level>
-                <LevelLeft>
-                    <p className='tag is-info is-light'>{params.id}</p>
-                    <span className='mx-1'>/</span>
-                    <p className='tag is-info is-light'>
-                        {moment(orderDetailData).format('DD MMMM YYYY HH:mm')}
-                    </p>
-                </LevelLeft>
-            </Level>
+        <Formik
+            initialValues={updateOrderInitialValues(orderDetailData, itemsData)}
+            onSubmit={handleSubmit}
+            enableReinitialize
+            validationSchema={createOrderValidationSchema}
+        >
+            {({ handleSubmit, setFieldValue, values }) => (
+                <Fragment>
+                    <form onSubmit={handleSubmit}>
+                        <Card className='is-fullheight'>
+                            <Level>
+                                <LevelLeft>
+                                    <p className='tag is-info is-light'>
+                                        {params.id}
+                                    </p>
+                                    <span className='mx-1'>/</span>
+                                    <p className='tag is-info is-light'>
+                                        {moment(orderDetailData).format(
+                                            'DD MMMM YYYY HH:mm'
+                                        )}
+                                    </p>
+                                </LevelLeft>
+                            </Level>
 
-            <div className='divider'></div>
-            <Formik
-                initialValues={updateOrderInitialValues(
-                    orderDetailData,
-                    itemsData
-                )}
-                onSubmit={handleSubmit}
-                enableReinitialize
-                validationSchema={createOrderValidationSchema}
-            >
-                {({ handleSubmit, setFieldValue, values }) => (
-                    <Fragment>
-                        <form onSubmit={handleSubmit}>
+                            <div className='divider'></div>
+
                             <Columns>
                                 <Column>
                                     <FormField
@@ -194,28 +196,31 @@ const CreateOrderForm = (props) => {
                                     />
                                 </Column>
                             </Columns>
-
                             <div className='divider' />
-
                             <FormPricing values={values} />
-
-                            <div className='buttons is-right'>
-                                <Button onClick={() => history.goBack()}>
-                                    Cancel
-                                </Button>
-                                <Button
-                                    className='is-link'
-                                    type='submit'
-                                    style={{ marginRight: 0 }}
-                                >
-                                    Save
-                                </Button>
-                            </div>
-                        </form>
-                    </Fragment>
-                )}
-            </Formik>
-        </Card>
+                        </Card>
+                        <div className='buttons is-right my-5'>
+                            <Button className='is-medium is-primary'>
+                                Generate Invoice
+                            </Button>
+                            <Button
+                                className='is-medium'
+                                onClick={() => history.goBack()}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                className='is-link is-medium'
+                                type='submit'
+                                style={{ marginRight: 0 }}
+                            >
+                                Save
+                            </Button>
+                        </div>
+                    </form>
+                </Fragment>
+            )}
+        </Formik>
     );
 };
 

@@ -57,6 +57,9 @@ const ModalTracking = (props) => {
             case ORDER_STATUS.CANCEL:
                 icon = faTimes;
                 break;
+            case ORDER_STATUS.ON_PROGRESS_SHIPPED:
+                icon = faTruckPickup;
+                break;
             default:
                 break;
         }
@@ -87,16 +90,18 @@ const ModalTracking = (props) => {
                                 />
                             </span>
                             <div className='steps-content'>
-                                {/* <p className='is-size-6 has-text-weight-bold'>
-                                    {item?.master_status?.name}
-                                </p> */}
-                                <p className='is-size-6 has-text-weight-bold'>
-                                    {item?.master_status?.description}
+                                <p className='is-size-6'>
+                                    {moment(item?.updatedAt).format(
+                                        'dddd, DD MMMM YYYY'
+                                    )}
                                 </p>
                                 <p className='is-size-7'>
                                     {`${moment(item?.updatedAt).format(
-                                        'DD MMMM YYYY, HH:mm:ss'
+                                        'HH:mm:ss'
                                     )} WIB`}
+                                </p>
+                                <p className='is-size-6 has-text-weight-bold'>
+                                    {item?.master_status?.description}
                                 </p>
                             </div>
                         </li>

@@ -4,7 +4,7 @@ import { sidebarMenus } from '@constants/sidebar.constant';
 const Sidebar = () => {
     return (
         <aside className='sidebar menu'>
-            <p className='menu-label'>General</p>
+            <p className='menu-label'>Menu</p>
             <ul className='menu-list' style={{ overflowY: 'auto' }}>
                 {sidebarMenus.map((menu, index) => (
                     <SidebarList {...menu} key={index} />

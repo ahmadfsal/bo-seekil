@@ -1,16 +1,12 @@
 import { useState, useEffect } from 'react';
 import { seekilApi } from '@service/api.services';
 import { Level, LevelLeft } from '@layout';
-import { Title, Notification } from '@elements';
-import { Modal } from '@components';
+import { Title } from '@elements';
 import { useHistory } from 'react-router-dom';
 import Form from './views/form';
 
 const CreateOrder = () => {
     const history = useHistory();
-    const [isShowModalGenerateInvoice, setShowModalGenerateInvoice] = useState(
-        false
-    );
     const [masterData, setMasterData] = useState({
         service: [],
         type: [],
@@ -32,37 +28,35 @@ const CreateOrder = () => {
     };
 
     const fetchCustomer = () => {
-        seekilApi
-            .get('customer')
-            .then(res => {
-                if (res.status === 200) {
-                    const arrCustomer = res?.data?.list?.map(item => {
-                        return {
-                            value: item?.id,
-                            label: item?.name,
-                            whatsapp: item?.whatsapp,
-                            address: item?.address
-                        }
-                    })
-                    setMasterData(prevValue => ({
-                        ...prevValue,
-                        customer: arrCustomer
-                    }))
-                }
-            })
-    }
+        seekilApi.get('customer').then((res) => {
+            if (res.status === 200) {
+                const arrCustomer = res?.data?.list?.map((item) => {
+                    return {
+                        value: item?.id,
+                        label: item?.name,
+                        whatsapp: item?.whatsapp,
+                        address: item?.address
+                    };
+                });
+                setMasterData((prevValue) => ({
+                    ...prevValue,
+                    customer: arrCustomer
+                }));
+            }
+        });
+    };
 
     const fetchMasterPromo = () => {
         seekilApi
             .get('master/promo')
             .then((res) => {
                 if (res?.data) {
-                    const arrPromo = res?.data?.list?.map(item => {
+                    const arrPromo = res?.data?.list?.map((item) => {
                         return {
                             value: item?.id,
                             label: item?.code,
                             discount: item?.discount
-                        }
+                        };
                     });
 
                     setMasterData((prevValue) => ({
@@ -136,7 +130,7 @@ const CreateOrder = () => {
             .post('order', generateFormValues(values))
             .then((res) => {
                 if (res?.data) {
-                    setShowModalGenerateInvoice(true);
+                    history.replace('/order');
                 }
             })
             .catch((err) => console.log(err));
@@ -196,19 +190,8 @@ const CreateOrder = () => {
                     <Title>Create Order</Title>
                 </LevelLeft>
             </Level>
-            <Form handleSubmit={handleSubmit} masterData={masterData} />
-            <Modal
-                isShow={isShowModalGenerateInvoice}
-                title='Generate Invoice'
-                onClickNegativeBtn={() => history.replace('/order')}
-                onClickPositiveBtn={() => {}}
-            >
-                Do you want to <strong>generate invoice</strong> for this order?
-            </Modal>
 
-            {/* <Notification isShow={isShowModalGenerateInvoice}>
-                --- Invoice Here ---
-            </Notification> */}
+            <Form handleSubmit={handleSubmit} masterData={masterData} />
         </>
     );
 };
