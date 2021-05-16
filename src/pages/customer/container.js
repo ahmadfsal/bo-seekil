@@ -29,6 +29,8 @@ const Customer = () => {
                         <th>Name</th>
                         <th>Whatsapp</th>
                         <th>Address</th>
+                        <th>Total Order</th>
+                        <th>History</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,6 +39,10 @@ const Customer = () => {
                             <td className='autofit'>{item?.name ?? '-'}</td>
                             <td className='autofit'>{item?.whatsapp ?? '-'}</td>
                             <td className='autofit'>{item?.address ?? '-'}</td>
+                            <td className='autofit'>-</td>
+                            <td className='autofit is-clickable'>
+                                Show History
+                            </td>
                         </tr>
                     ))}
                 </tbody>

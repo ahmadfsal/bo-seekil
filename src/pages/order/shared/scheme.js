@@ -9,36 +9,46 @@ export const blankItemObject = {
 };
 
 export const createOrderInitialValues = {
+    customer_id: '',
     customer_name: '',
     whatsapp: '',
     order_type_id: '',
     store_id: '',
     pickup_address: '',
     partnership_id: '',
+    payment_method_id: '',
+    payment_status: '',
     order_status_id: '',
     promo_id: '',
     pickup_delivery_price: 0,
     potongan: 0,
     qty: '',
-    total: '',
+    total: 0,
     items: [blankItemObject]
 };
 
 export const updateOrderInitialValues = (data, arrItems) => {
     return {
         customer_id: data?.customer_id ?? '',
-        customer_name: data?.customer_name ?? '',
-        whatsapp: data?.whatsapp ?? '',
+        customer_name: data?.customer?.name ?? '',
+        whatsapp: data?.customer?.whatsapp ?? '',
         order_type_id: data?.order_type_id ?? '',
         store_id: data?.store_id ?? '',
-        pickup_address: data?.pickup_address ?? '',
-        partnership_id: data?.pickup_address ?? '',
+        pickup_address: data?.customer?.address ?? '',
+        partnership_id: data?.partnership_id ?? '',
+        payment_method_id: data?.payment_method_id ?? '',
+        payment_method_name: data?.master_payment_method?.name ?? '',
+        payment_status: data?.payment_status ?? '',
+        partnership_name: {
+            value: data?.partnership_id,
+            text: data?.master_partnership?.name
+        },
         order_status_id: data?.order_status_id ?? '',
         promo_id: data?.promo_id ?? '',
         promo_code: data?.master_promo?.code,
         pickup_delivery_price: data.pickup_delivery_price
             ? data.pickup_delivery_price
-            : 0,
+            : '',
         potongan: data.potongan ? data.potongan : 0,
         discount: 0,
         qty: data?.qty ?? '',
@@ -70,6 +80,12 @@ export const createOrderValidationSchema = Yup.object({
     ),
     order_type_id: Yup.string().required(
         `Order Type ${VALIDATION_MESSAGE.REQUIRED_FIELD}`
+    ),
+    payment_method_id: Yup.string().required(
+        `Payment Method ${VALIDATION_MESSAGE.REQUIRED_FIELD}`
+    ),
+    payment_status: Yup.string().required(
+        `Payment Status ${VALIDATION_MESSAGE.REQUIRED_FIELD}`
     ),
     store_id: Yup.string().when('order_type_id', {
         is: '1',

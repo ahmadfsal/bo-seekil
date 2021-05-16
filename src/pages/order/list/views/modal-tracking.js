@@ -25,7 +25,7 @@ const ModalTracking = (props) => {
                 .get(`order/${modalAttr.order_id}/tracker`)
                 .then((res) => {
                     if (res.status === 200) {
-                        setTrackingData(res.data.data);
+                        setTrackingData(res.data.list);
                     }
                 })
                 .catch((err) => console.log(err));

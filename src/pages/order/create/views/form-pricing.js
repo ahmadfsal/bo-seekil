@@ -1,29 +1,9 @@
 import { Column, Columns } from '@layout';
 import { currencyFormat } from '@utils';
+import { countSubtotal } from '@utils';
 
 const FormPricing = (props) => {
     const { values } = props;
-
-    const getSubtotalOrTotal = () => {
-        return values['items'].reduce((acc, curr) => {
-            const subtotal = acc + parseInt(curr.subtotal);
-
-            if (!isNaN(subtotal)) {
-                return parseInt(subtotal);
-            }
-            return 0;
-        }, 0);
-    };
-
-    const getTotal = () => {
-        const { pickup_delivery_price, potongan } = values;
-        const total =
-            getSubtotalOrTotal() +
-            parseInt(pickup_delivery_price) -
-            parseInt(potongan);
-
-        return total;
-    };
 
     return (
         <Columns className='is-size-6 is-margin-bottom'>
@@ -34,7 +14,10 @@ const FormPricing = (props) => {
                     </Column>
                     <Column className='is-0'>:</Column>
                     <Column className='has-text-right has-text-weight-bold is-paddingless-right has-text-success'>
-                        {`Rp ${currencyFormat(getSubtotalOrTotal())}`}
+                        Rp
+                        {countSubtotal(values).subtotal
+                            ? currencyFormat(countSubtotal(values).subtotal)
+                            : 0}
                     </Column>
                 </Columns>
                 <Columns>
@@ -43,7 +26,10 @@ const FormPricing = (props) => {
                     </Column>
                     <Column className='is-0'>:</Column>
                     <Column className='has-text-right has-text-weight-bold is-paddingless-right has-text-success'>
-                        {`Rp ${currencyFormat(values.pickup_delivery_price)}`}
+                        Rp{' '}
+                        {values.pickup_delivery_price
+                            ? currencyFormat(values.pickup_delivery_price)
+                            : 0}
                     </Column>
                 </Columns>
                 <Columns>
@@ -52,7 +38,8 @@ const FormPricing = (props) => {
                     </Column>
                     <Column className='is-0'>:</Column>
                     <Column className='has-text-right has-text-weight-bold is-paddingless-right has-text-danger'>
-                        {`Rp ${currencyFormat(values.potongan)}`}
+                        Rp{' '}
+                        {values.potongan ? currencyFormat(values.potongan) : 0}
                     </Column>
                 </Columns>
                 <div className='divider' />
@@ -62,7 +49,10 @@ const FormPricing = (props) => {
                     </Column>
                     <Column className='is-0'>:</Column>
                     <Column className='has-text-right has-text-weight-bold is-paddingless-right'>
-                        {`Rp ${currencyFormat(getTotal())}`}
+                        Rp
+                        {countSubtotal(values).total
+                            ? currencyFormat(countSubtotal(values).total)
+                            : 0}
                     </Column>
                 </Columns>
             </Column>

@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Card } from '@components';
 import { Button } from '@elements';
@@ -17,6 +17,7 @@ import FormPricing from './form-pricing';
 
 const CreateOrderForm = (props) => {
     const {
+        handleGenerateInvoice,
         handleSubmit,
         itemsData,
         objectValueMasterStatus,
@@ -63,6 +64,7 @@ const CreateOrderForm = (props) => {
                                         type='text'
                                         name='customer_name'
                                         isMandatory
+                                        disabled
                                     />
                                 </Column>
                                 <Column>
@@ -73,6 +75,7 @@ const CreateOrderForm = (props) => {
                                         pattern='[0-9]*'
                                         name='whatsapp'
                                         isMandatory
+                                        disabled
                                     />
                                 </Column>
                             </Columns>
@@ -115,6 +118,7 @@ const CreateOrderForm = (props) => {
                                         placeholder='Select Drop Off Location'
                                         type='select'
                                         name='partnership_id'
+                                        // initValue={values['partnership_name']}
                                         objectValue={objectValuePartnership}
                                         disabled
                                         // disabled={
@@ -162,6 +166,34 @@ const CreateOrderForm = (props) => {
                             <Columns>
                                 <Column>
                                     <FormField
+                                        label='Payment Method'
+                                        placeholder='Select Payment Method'
+                                        type='text'
+                                        name='payment_method_name'
+                                        disabled
+                                    />
+                                </Column>
+                                <Column>
+                                    <FormField
+                                        label='Payment Status'
+                                        placeholder='Select Payment Status'
+                                        type='select'
+                                        name='payment_status'
+                                        isMandatory
+                                        objectValue={[
+                                            { text: 'Lunas', value: 'lunas' },
+                                            {
+                                                text: 'Belum Lunas',
+                                                value: 'belum_lunas'
+                                            }
+                                        ]}
+                                    />
+                                </Column>
+                            </Columns>
+
+                            <Columns>
+                                <Column>
+                                    <FormField
                                         label='Promo'
                                         placeholder='Select Promo'
                                         type='text'
@@ -200,7 +232,13 @@ const CreateOrderForm = (props) => {
                             <FormPricing values={values} />
                         </Card>
                         <div className='buttons is-right my-5'>
-                            <Button className='is-medium is-primary'>
+                            <Button className='is-outlined is-danger is-medium'>
+                                Drop Order
+                            </Button>
+                            <Button
+                                className='is-medium is-primary'
+                                onClick={handleGenerateInvoice}
+                            >
                                 Generate Invoice
                             </Button>
                             <Button

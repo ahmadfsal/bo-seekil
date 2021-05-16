@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Card } from '@components';
 import { Button } from '@elements';
@@ -52,11 +51,36 @@ const CreateOrderForm = (props) => {
         const { label, whatsapp, value } = objValue;
 
         if (label && whatsapp) {
+            setFieldValue('customer_id', value);
             setFieldValue('customer_name', label);
             setFieldValue('whatsapp', whatsapp);
         } else {
             setFieldValue('customer_name', value);
             setFieldValue('whatsapp', '');
+        }
+    };
+
+    const handleChangeOrderType = (e, setFieldValue) => {
+        const { target } = e;
+        const { value } = target;
+
+        setFieldValue('order_type_id', value);
+
+        switch (value) {
+            case ORDER_TYPE_ONSTORE:
+                setFieldValue('partnership_id', '');
+                setFieldValue('pickup_address', '');
+                break;
+            case ORDER_TYPE_PICKUP:
+                setFieldValue('partnership_id', '');
+                setFieldValue('store_id', '');
+                break;
+            case ORDER_TYPE_DROPOFF:
+                setFieldValue('store_id', '');
+                setFieldValue('pickup_address', '');
+                break;
+            default:
+                break;
         }
     };
 
@@ -78,20 +102,21 @@ const CreateOrderForm = (props) => {
                                     type='select-custom'
                                     name='customer_name'
                                     objectValue={masterData.customer}
+                                    isMandatory
+                                    isCreatable
                                     onSelectedOption={(value) => {
                                         handleSelectCutomer(
                                             value,
                                             setFieldValue
                                         );
                                     }}
-                                    isMandatory
                                 />
                             </Column>
                             <Column>
                                 <FormField
                                     label='Whatsapp'
                                     placeholder='08xxxxxxxxxx'
-                                    type='number'
+                                    type='text'
                                     name='whatsapp'
                                     isMandatory
                                 />
@@ -106,6 +131,9 @@ const CreateOrderForm = (props) => {
                                     name='order_type_id'
                                     objectValue={masterData.type}
                                     isMandatory
+                                    onChange={(e) => {
+                                        handleChangeOrderType(e, setFieldValue);
+                                    }}
                                 />
                             </Column>
                         </Columns>
@@ -117,7 +145,7 @@ const CreateOrderForm = (props) => {
                                     placeholder='Select Store Location'
                                     type='select'
                                     name='store_id'
-                                    objectValue={masterData.partnership}
+                                    objectValue={masterData.store}
                                     disabled={
                                         values['order_type_id'] !==
                                         ORDER_TYPE_ONSTORE
@@ -199,6 +227,35 @@ const CreateOrderForm = (props) => {
                                             setFieldValue
                                         );
                                     }}
+                                />
+                            </Column>
+                        </Columns>
+
+                        <Columns>
+                            <Column>
+                                <FormField
+                                    label='Payment Method'
+                                    placeholder='Select Payment Method'
+                                    type='select'
+                                    name='payment_method_id'
+                                    objectValue={masterData.payment_method}
+                                    isMandatory
+                                />
+                            </Column>
+                            <Column>
+                                <FormField
+                                    label='Payment Status'
+                                    placeholder='Select Payment Status'
+                                    type='select'
+                                    name='payment_status'
+                                    isMandatory
+                                    objectValue={[
+                                        { text: 'Lunas', value: 'lunas' },
+                                        {
+                                            text: 'Belum Lunas',
+                                            value: 'belum_lunas'
+                                        }
+                                    ]}
                                 />
                             </Column>
                         </Columns>

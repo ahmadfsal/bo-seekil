@@ -3,6 +3,8 @@ import { seekilApi } from '@service/api.services';
 import { Level, LevelLeft } from '@layout';
 import { Title } from '@elements';
 import { useHistory, useParams } from 'react-router-dom';
+import { base64PdfNewTab } from '@utils';
+
 import Form from './views/form';
 
 const CreateOrder = () => {
@@ -56,7 +58,7 @@ const CreateOrder = () => {
                                 return {
                                     value: item?.master_service?.id,
                                     label: item?.master_service?.name,
-                                    price: item?.master_service?.price,
+                                    price: item?.master_service?.price
                                 };
                             }
                         );
@@ -131,7 +133,7 @@ const CreateOrder = () => {
         seekilApi
             .get('master/partnership')
             .then((res) => {
-                const arrPartnership = res?.data?.map((item) => {
+                const arrPartnership = res?.data?.list?.map((item) => {
                     return {
                         text: item?.name,
                         value: item?.id
@@ -146,11 +148,7 @@ const CreateOrder = () => {
         seekilApi
             .put(`order/${params.id}`, generateFormValues(values))
             .then((res) => {
-                if (res?.data) {
-                    // alert('Successfully update order');
-                    history.replace('/order');
-                    // setShowModalGenerateInvoice(true);
-                }
+                if (res?.data) history.replace('/order');
             })
             .catch((err) => console.log(err));
     };
@@ -172,6 +170,12 @@ const CreateOrder = () => {
                 : null,
             partnership_id: formValues.partnership_id
                 ? parseInt(formValues.partnership_id)
+                : null,
+            payment_method_id: formValues.payment_method_id
+                ? parseInt(formValues.payment_method_id)
+                : null,
+            payment_status: formValues.payment_status
+                ? parseInt(formValues.payment_status)
                 : null,
             order_status_id: formValues.order_status_id
                 ? parseInt(formValues.order_status_id)
@@ -207,6 +211,15 @@ const CreateOrder = () => {
         });
     };
 
+    const handleGenerateInvoice = () => {
+        seekilApi.get(`/invoice/${params.id}`).then((res) => {
+            if (res.data) {
+                const base64string = res.data.data;
+                base64PdfNewTab(base64string);
+            }
+        });
+    };
+
     return (
         <>
             <Level>
@@ -215,6 +228,7 @@ const CreateOrder = () => {
                 </LevelLeft>
             </Level>
             <Form
+                handleGenerateInvoice={handleGenerateInvoice}
                 handleSubmit={handleSubmit}
                 itemsData={itemsData}
                 objectValueMasterStatus={objectValueMasterStatus}

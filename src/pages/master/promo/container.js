@@ -18,9 +18,8 @@ const MasterPromo = () => {
     };
     const [isShowModalLoading, setShowModalLoading] = useState(false);
     const [promoData, setPromoData] = useState([]);
-    const [modalAddEditAttr, setModalAddEditAttr] = useState(
-        defaultModalAddEdit
-    );
+    const [modalAddEditAttr, setModalAddEditAttr] =
+        useState(defaultModalAddEdit);
 
     useEffect(() => {
         fetchMasterPromo();
@@ -79,8 +78,12 @@ const MasterPromo = () => {
             if (res.status === 200) {
                 fetchMasterPromo();
                 setFieldValue('name', '');
-                setFieldValue('price', '');
+                setFieldValue('code', '');
+                setFieldValue('discount', '');
                 setFieldValue('description', '');
+                setFieldValue('start_date', '');
+                setFieldValue('end_date', '');
+                setFieldValue('status', '');
             }
         });
     };
@@ -92,20 +95,22 @@ const MasterPromo = () => {
                 if (res.status === 200) {
                     fetchMasterPromo();
                     setFieldValue('name', '');
-                    setFieldValue('price', '');
+                    setFieldValue('code', '');
+                    setFieldValue('discount', '');
                     setFieldValue('description', '');
+                    setFieldValue('start_date', '');
+                    setFieldValue('end_date', '');
+                    setFieldValue('status', '');
                 }
             });
     };
 
     const continueDeleteData = () => {
-        seekilApi
-            .delete(`master/promo/${modalAddEditAttr.id}`)
-            .then((res) => {
-                if (res.status === 200) {
-                    fetchMasterPromo();
-                }
-            });
+        seekilApi.delete(`master/promo/${modalAddEditAttr.id}`).then((res) => {
+            if (res.status === 200) {
+                fetchMasterPromo();
+            }
+        });
     };
 
     return (

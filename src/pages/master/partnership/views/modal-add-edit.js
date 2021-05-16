@@ -1,41 +1,41 @@
 import { useEffect, useState } from 'react';
 import { Modal } from '@components';
-import { FormField } from '@form';
 import { Column, Columns } from '@layout';
-import { seekilApi } from '@service/api.services';
-import { Formik } from 'formik';
+import { FormField } from '@form';
 import { ADD, EDIT, DELETE } from 'src/pages/master/shared/constant';
+import { Formik } from 'formik';
+import { seekilApi } from '@service/api.services';
 import {
-    promoInitialValues,
-    promoValidationSchema
+    partnershipInitialValues,
+    partnershipValidationSchema
 } from 'src/pages/master/shared/scheme';
 
 const ModalAddEdit = (props) => {
-    const { handleModalAddEdit, handleSubmitForm, modalAddEditAttr } = props;
-    const { isShow, type, id } = modalAddEditAttr;
+    const { modalAttr, handleSubmitForm, handleModalAddEdit } = props;
+    const { id, isShow, type } = modalAttr;
     const [itemWillBeEdited, setItemWillBeEdited] = useState({});
 
     useEffect(() => {
         if (type === EDIT && id) {
             seekilApi
-                .get(`master/promo/${id}`)
+                .get(`master/partnership/${id}`)
                 .then((res) => {
                     if (res.status === 200) setItemWillBeEdited(res.data.data);
                 })
                 .catch((err) => console.log(err));
-        } else {
-            setItemWillBeEdited({});
-        }
-    }, [modalAddEditAttr]);
+        } else setItemWillBeEdited({});
+    }, [modalAttr]);
 
     const resetForm = (setFieldValue) => {
         setFieldValue('name', '');
-        setFieldValue('code', '');
-        setFieldValue('discount', '');
-        setFieldValue('description', '');
+        setFieldValue('whatsapp', '');
+        setFieldValue('address', '');
+        setFieldValue('latitude', '');
+        setFieldValue('longitude', '');
+        setFieldValue('potongan', '');
+        setFieldValue('drop_zone', '');
         setFieldValue('start_date', '');
         setFieldValue('end_date', '');
-        setFieldValue('status', '');
     };
 
     return type === DELETE ? (
@@ -49,9 +49,9 @@ const ModalAddEdit = (props) => {
         </Modal>
     ) : (
         <Formik
-            initialValues={promoInitialValues(itemWillBeEdited)}
-            validationSchema={promoValidationSchema}
             enableReinitialize
+            initialValues={partnershipInitialValues(itemWillBeEdited)}
+            validationSchema={partnershipValidationSchema}
             onSubmit={(values, action) => {
                 handleSubmitForm(values, action.setFieldValue);
             }}
@@ -61,8 +61,12 @@ const ModalAddEdit = (props) => {
                     <Modal
                         isShow={isShow}
                         onClickPositiveBtn={handleSubmit}
-                        title={type === ADD ? 'Add New Promo' : 'Edit Promo'}
                         positiveBtnText='Save'
+                        title={
+                            type === ADD
+                                ? 'Add New Partnership'
+                                : 'Edit Partnership'
+                        }
                         onClickNegativeBtn={() => {
                             handleModalAddEdit();
                             resetForm(setFieldValue);
@@ -71,10 +75,19 @@ const ModalAddEdit = (props) => {
                         <Columns>
                             <Column>
                                 <FormField
+                                    type='text'
                                     name='name'
-                                    label='Promo Name'
+                                    label='Name'
+                                    placeholder='Input Name'
+                                    isMandatory
+                                />
+                            </Column>
+                            <Column>
+                                <FormField
                                     type='text'
-                                    placeholder='Input Promo Name'
+                                    name='whatsapp'
+                                    label='Whatsapp'
+                                    placeholder='Input Whatsapp'
                                     isMandatory
                                 />
                             </Column>
@@ -83,47 +96,10 @@ const ModalAddEdit = (props) => {
                         <Columns>
                             <Column>
                                 <FormField
-                                    name='code'
-                                    label='Code'
-                                    type='text'
-                                    placeholder='Input Code'
-                                    isMandatory
-                                />
-                            </Column>
-                            <Column>
-                                <FormField
-                                    name='discount'
-                                    label='Discount (%)'
-                                    type='number'
-                                    placeholder='Input Discount'
-                                    isMandatory
-                                />
-                            </Column>
-                        </Columns>
-
-                        <Columns>
-                            <Column>
-                                <FormField
-                                    name='status'
-                                    label='Status'
-                                    type='select'
-                                    placeholder='Select Status'
-                                    isMandatory
-                                    objectValue={[
-                                        { value: 'active', text: 'Active' },
-                                        { value: 'non-active', text: 'Non-Active' }
-                                    ]}
-                                />
-                            </Column>
-                        </Columns>
-
-                        <Columns>
-                            <Column>
-                                <FormField
-                                    name='description'
-                                    label='Description'
                                     type='textarea'
-                                    placeholder='Input Description'
+                                    name='address'
+                                    label='Address'
+                                    placeholder='Input Address'
                                     isMandatory
                                 />
                             </Column>
@@ -132,19 +108,44 @@ const ModalAddEdit = (props) => {
                         <Columns>
                             <Column>
                                 <FormField
+                                    type='number'
+                                    name='potongan'
+                                    label='Potongan (%)'
+                                    placeholder='Input Potongan'
+                                    isMandatory
+                                />
+                            </Column>
+                            <Column>
+                                <FormField
+                                    type='select'
+                                    name='drop_zone'
+                                    label='Drop Zone'
+                                    placeholder='Select Drop Zone'
+                                    objectValue={[
+                                        { value: 'yes', text: 'Yes' },
+                                        { value: 'no', text: 'No' }
+                                    ]}
+                                    isMandatory
+                                />
+                            </Column>
+                        </Columns>
+
+                        <Columns>
+                            <Column>
+                                <FormField
+                                    type='date'
                                     name='start_date'
                                     label='Start Date'
-                                    type='date'
                                     placeholder='Select Start Date'
                                     isMandatory
                                 />
                             </Column>
                             <Column>
                                 <FormField
+                                    type='date'
                                     name='end_date'
                                     label='End Date'
-                                    type='date'
-                                    placeholder='Input End Date'
+                                    placeholder='Select End Date'
                                     isMandatory
                                 />
                             </Column>

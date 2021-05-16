@@ -4,6 +4,7 @@ import { Level, LevelLeft } from '@layout';
 import { Title } from '@elements';
 import { useHistory } from 'react-router-dom';
 import Form from './views/form';
+import { countSubtotal } from '@utils';
 
 const CreateOrder = () => {
     const history = useHistory();
@@ -12,7 +13,9 @@ const CreateOrder = () => {
         type: [],
         partnership: [],
         promo: [],
-        customer: []
+        customer: [],
+        store: [],
+        payment_method: []
     });
 
     useEffect(() => {
@@ -24,6 +27,8 @@ const CreateOrder = () => {
         fetchMasterType();
         fetchMasterPartnership();
         fetchMasterPromo();
+        fetchMasterStore();
+        fetchMasterPaymentMethod();
         fetchCustomer();
     };
 
@@ -62,6 +67,27 @@ const CreateOrder = () => {
                     setMasterData((prevValue) => ({
                         ...prevValue,
                         promo: arrPromo
+                    }));
+                }
+            })
+            .catch((err) => console.log(err));
+    };
+
+    const fetchMasterPaymentMethod = () => {
+        seekilApi
+            .get('master/payment-method')
+            .then((res) => {
+                if (res?.data) {
+                    const arrPaymentMethod = res?.data?.list?.map((item) => {
+                        return {
+                            value: item?.id,
+                            text: item?.name
+                        };
+                    });
+
+                    setMasterData((prevValue) => ({
+                        ...prevValue,
+                        payment_method: arrPaymentMethod
                     }));
                 }
             })
@@ -111,15 +137,41 @@ const CreateOrder = () => {
         seekilApi
             .get('master/partnership')
             .then((res) => {
-                const arrPartnership = res?.data?.map((item) => {
-                    return {
-                        text: item?.name,
-                        value: item?.id
-                    };
-                });
+                const arrPartnership = res?.data?.list?.reduce((acc, curr) => {
+                    if (curr.drop_zone === 0) {
+                        acc = [
+                            {
+                                text: curr?.name,
+                                value: curr?.id
+                            }
+                        ];
+                    }
+                    return acc;
+                }, []);
+
                 setMasterData((prevValue) => ({
                     ...prevValue,
                     partnership: arrPartnership
+                }));
+            })
+            .catch((err) => console.log(err));
+    };
+
+    const fetchMasterStore = () => {
+        seekilApi
+            .get('master/store')
+            .then((res) => {
+                const arrStore = res?.data?.list?.map((item) => {
+                    return {
+                        text: item?.staging,
+                        value: item?.id,
+                        address: item?.address
+                    };
+                });
+
+                setMasterData((prevValue) => ({
+                    ...prevValue,
+                    store: arrStore
                 }));
             })
             .catch((err) => console.log(err));
@@ -138,6 +190,7 @@ const CreateOrder = () => {
 
     const generateFormValues = (formValues) => {
         return {
+            customer_id: formValues?.customer_id ?? null,
             customer_name: formValues?.customer_name ?? null,
             whatsapp: formValues.whatsapp
                 ? formValues.whatsapp.toString()
@@ -154,20 +207,24 @@ const CreateOrder = () => {
             partnership_id: formValues.partnership_id
                 ? parseInt(formValues.partnership_id)
                 : null,
+            payment_method_id: formValues.payment_method_id
+                ? parseInt(formValues.payment_method_id)
+                : null,
+            payment_status: formValues.payment_status
+                ? parseInt(formValues.payment_status)
+                : null,
             promo_id: formValues.promo_id
                 ? parseInt(formValues.promo_id)
                 : null,
-            pickup_deliver_price: formValues.pickup_deliver_price
-                ? parseInt(formValues.pickup_deliver_price)
+            pickup_delivery_price: formValues.pickup_delivery_price
+                ? parseInt(formValues.pickup_delivery_price)
                 : null,
             potongan: formValues.potongan
                 ? parseInt(formValues.potongan)
                 : null,
             order_status_id: 1,
             qty: formValues?.items?.length ?? null,
-            total: formValues?.items?.reduce((acc, curr) => {
-                return acc + parseInt(curr.subtotal);
-            }, 0),
+            total: countSubtotal(formValues).total,
             items: generateItemsValues(formValues?.items) ?? null
         };
     };

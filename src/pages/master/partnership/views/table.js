@@ -1,46 +1,46 @@
 import { Table } from '@elements';
-import { limitWord } from '@utils';
-import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { EDIT, DELETE } from 'src/pages/master/shared/constant';
+import moment from 'moment';
 
-const TableTopping = (props) => {
-    const { handleModalAddEdit, promoData } = props;
+const DataTable = (props) => {
+    const { handleModalAddEdit, partnershipData } = props;
 
     return (
         <Table>
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Code</th>
-                    <th>Discount</th>
-                    <th>Description</th>
+                    <th>Whatsapp</th>
+                    <th>Address</th>
+                    <th>Potongan</th>
+                    <th>Drop Zone</th>
                     <th>Start Date</th>
                     <th>End Date</th>
-                    <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                {promoData.map((item) => (
+                {partnershipData?.map((item) => (
                     <tr key={item?.id}>
                         <td className='autofit'>{item?.name ?? '-'}</td>
-                        <td className='autofit'>{item?.code ?? '-'}</td>
+                        <td className='autofit'>{item?.whatsapp ?? '-'}</td>
+                        <td className='autofit'>{item?.address ?? '-'}</td>
                         <td className='autofit'>
-                            {`${item?.discount}%` ?? '-'}
+                            {item.potongan ? `${item.potongan} %` : '-'}
                         </td>
                         <td className='autofit'>
-                            {limitWord(item?.description) ?? '-'}
+                            {item?.drop_zone === 'yes' ? 'Yes' : 'No'}
                         </td>
                         <td className='autofit'>
-                            {moment(item.start_date).format('DD MMMM YYYY')}
+                            {moment(item?.start_date).format('DD MMMM YYYY') ??
+                                '-'}
                         </td>
                         <td className='autofit'>
-                            {moment(item.end_date).format('DD MMMM YYYY')}
-                        </td>
-                        <td className='autofit'>
-                            {item.status === 'active' ? 'Active' : 'Non-Active'}
+                            {item?.end_date
+                                ? moment(item?.end_date).format('DD MMMM YYYY')
+                                : '-'}
                         </td>
                         <td className='autofit'>
                             <FontAwesomeIcon
@@ -65,4 +65,4 @@ const TableTopping = (props) => {
     );
 };
 
-export default TableTopping;
+export default DataTable;

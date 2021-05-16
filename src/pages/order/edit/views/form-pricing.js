@@ -43,7 +43,10 @@ const FormPricing = (props) => {
                     </Column>
                     <Column className='is-0'>:</Column>
                     <Column className='has-text-right has-text-weight-bold is-paddingless-right has-text-success'>
-                        {`Rp ${currencyFormat(values.pickup_delivery_price)}`}
+                        Rp{' '}
+                        {values.pickup_delivery_price
+                            ? currencyFormat(values.pickup_delivery_price)
+                            : 0}
                     </Column>
                 </Columns>
                 <Columns>
@@ -52,7 +55,8 @@ const FormPricing = (props) => {
                     </Column>
                     <Column className='is-0'>:</Column>
                     <Column className='has-text-right has-text-weight-bold is-paddingless-right has-text-danger'>
-                        {`Rp ${currencyFormat(values.potongan)}`}
+                        Rp{' '}
+                        {values.potongan ? currencyFormat(values.potongan) : 0}
                     </Column>
                 </Columns>
                 <div className='divider' />
@@ -62,7 +66,7 @@ const FormPricing = (props) => {
                     </Column>
                     <Column className='is-0'>:</Column>
                     <Column className='has-text-right has-text-weight-bold is-paddingless-right'>
-                        {`Rp ${currencyFormat(getTotal())}`}
+                        {`Rp ${currencyFormat(values['total'])}`}
                     </Column>
                 </Columns>
             </Column>

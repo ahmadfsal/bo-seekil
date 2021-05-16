@@ -22,6 +22,8 @@ const TableOrderList = (props) => {
                         <th>Drop Off Location</th>
                         <th>Items</th>
                         <th>Promo</th>
+                        <th>Payment Method</th>
+                        <th>Payment Status</th>
                         <th>Order Date</th>
                         <th>Updated Date</th>
                         <th>Status</th>
@@ -38,9 +40,11 @@ const TableOrderList = (props) => {
                                 </Link>
                             </td>
                             <td className='autofit'>
-                                {item?.customer_name ?? '-'}
+                                {item?.customer?.name ?? '-'}
                             </td>
-                            <td className='autofit'>{item?.whatsapp ?? '-'}</td>
+                            <td className='autofit'>
+                                {item?.customer?.whatsapp ?? '-'}
+                            </td>
                             <td className='autofit'>
                                 {item?.master_type?.name ?? '-'}
                             </td>
@@ -48,14 +52,22 @@ const TableOrderList = (props) => {
                                 {item?.master_store?.name ?? '-'}
                             </td>
                             <td className='autofit'>
-                                {item?.pickup_address ?? '-'}
+                                {item?.customer?.address ?? '-'}
                             </td>
                             <td className='autofit'>
                                 {item?.master_partnership?.name ?? '-'}
                             </td>
                             <td className='autofit'>{`${item?.qty} item`}</td>
                             <td className='autofit'>
-                                {item?.promo?.name ?? '-'}
+                                {item?.master_promo?.code ?? '-'}
+                            </td>
+                            <td className='autofit'>
+                                {item?.master_payment_method?.name ?? '-'}
+                            </td>
+                            <td className='autofit'>
+                                {item?.payment_status === 'lunas'
+                                    ? 'Lunas'
+                                    : 'Belum Lunas'}
                             </td>
                             <td className='autofit'>
                                 {moment(item?.order_date).format(

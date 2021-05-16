@@ -1,5 +1,6 @@
 import classnames from 'classnames';
 import CreatableSelect from 'react-select/creatable';
+import Select from 'react-select';
 
 const SelectCustom = (props) => {
     const {
@@ -14,6 +15,7 @@ const SelectCustom = (props) => {
         value,
         validationClasses,
         isMandatory,
+        isCreatable = false,
         ...attr
     } = props;
 
@@ -28,11 +30,13 @@ const SelectCustom = (props) => {
         if (onSelectedOption) onSelectedOption(selectedOptions);
     };
 
+    const ElementSelect = isCreatable ? CreatableSelect : Select;
+
     return (
         <div className='field'>
             {label && <label className={labelClasses}>{label}</label>}
             <div className='control'>
-                <CreatableSelect
+                <ElementSelect
                     className='basic-single'
                     classNamePrefix='select'
                     placeholder={placeholder}
@@ -47,4 +51,4 @@ const SelectCustom = (props) => {
     );
 };
 
-export default SelectCustom
+export default SelectCustom;

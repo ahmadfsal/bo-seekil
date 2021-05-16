@@ -29,7 +29,8 @@ const route = [
         title: 'Customer',
         // exact: true,
         component: Loadable({
-            loader: () => import(/* webpackChunkName: "customer" */ './customer'),
+            loader: () =>
+                import(/* webpackChunkName: "customer" */ './customer'),
             loading: () => null,
             modules: ['customer']
         })
@@ -39,7 +40,8 @@ const route = [
         title: 'Order',
         exact: true,
         component: Loadable({
-            loader: () => import(/* webpackChunkName: "order" */ './order/list'),
+            loader: () =>
+                import(/* webpackChunkName: "order" */ './order/list'),
             loading: () => null,
             modules: ['order']
         })
@@ -49,7 +51,8 @@ const route = [
         title: 'Create Order',
         exact: true,
         component: Loadable({
-            loader: () => import(/* webpackChunkName: "create-order" */ './order/create'),
+            loader: () =>
+                import(/* webpackChunkName: "create-order" */ './order/create'),
             loading: () => null,
             modules: ['create-order']
         })
@@ -59,7 +62,8 @@ const route = [
         title: 'Edit Order',
         exact: true,
         component: Loadable({
-            loader: () => import(/* webpackChunkName: "edit-order" */ './order/edit'),
+            loader: () =>
+                import(/* webpackChunkName: "edit-order" */ './order/edit'),
             loading: () => null,
             modules: ['edit-order']
         })
